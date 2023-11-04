@@ -1,30 +1,40 @@
+import { http } from "@/utils";
+import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/router";
 import { useForm } from "react-hook-form";
 
 interface CreateEvent {
+  id: number;
   name: string;
   description: string;
-  date: string;
-  place: string;
+  status: "PENDING" | "ACTIVE" | "FINISH";
+  discipline: number;
 }
 
 const FormCreateEvents = () => {
   const { register, handleSubmit } = useForm<CreateEvent>({
     mode: "onChange",
     defaultValues: {
-      date: "",
-      description: "",
       name: "",
-      place: "",
+      description: "",
+      status: "PENDING",
+      discipline: 0,
     },
   });
 
   const router = useRouter();
 
-  const onCreateEvent = (values: CreateEvent) => {
-    console.log(values);
+  const { mutate } = useMutation({
+    mutationFn: (data: CreateEvent) => {
+      return http.post("/challenge", data);
+    },
+    onSuccess: () => {
+      router.push("/list-events");
+    },
+  });
 
-    // router.push("/events");
+  const onCreateEvent = (values: CreateEvent) => {
+    mutate(values);
   };
 
   return (
@@ -63,36 +73,6 @@ const FormCreateEvents = () => {
           placeholder="Escribe aquí"
           className="input input-bordered w-full"
           {...register("description", {
-            required: true,
-          })}
-        />
-      </div>
-
-      <div className="form-control w-full">
-        <label htmlFor="date" className="label">
-          <span className="label-text">Ingresa una fecha</span>
-        </label>
-        <input
-          id="date"
-          type="date"
-          placeholder="Escribe aquí"
-          className="input input-bordered w-full"
-          {...register("date", {
-            required: true,
-          })}
-        />
-      </div>
-
-      <div className="form-control w-full">
-        <label htmlFor="place" className="label">
-          <span className="label-text">Ingresa un lugar</span>
-        </label>
-        <input
-          id="place"
-          type="text"
-          placeholder="Escribe aquí"
-          className="input input-bordered w-full"
-          {...register("place", {
             required: true,
           })}
         />

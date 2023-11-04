@@ -9,7 +9,7 @@ export interface CardEventProps {
 
 const CardEvent = (props: CardEventProps) => {
   return (
-    <article className="p-6 rounded-lg bg-white border-primary border-[1px] w-full max-w-sm flex flex-col gap-4 shadow-gray-900">
+    <article className="p-6 rounded-lg bg- border-primary border-[1px] w-full max-w-sm flex flex-col gap-4 shadow-gray-900">
       <h3 className="text-primary font-bold text-[1.5rem]">{props.name}</h3>
       <div>
         <strong className="flex gap-1 items-center">

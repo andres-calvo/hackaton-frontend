@@ -22,9 +22,7 @@ const FeedPage = () => {
   );
   const [showCommentsModal, setShowCommentsModal] = useState(false);
 
-  const { data: publications } = useQuery<
-    Omit<PublicationProps, "handleShowModal">[]
-  >({
+  const { data: resp } = useQuery({
     queryKey: ["Feed"],
     queryFn: async () => {
       const user = JSON.parse(localStorage.getItem("userInfo") ?? "");
@@ -56,7 +54,7 @@ const FeedPage = () => {
         </form>
       </div>
       <section className="flex flex-col gap-4 mt-10">
-        {publications?.map((publi) => (
+        {resp?.data?.map((publi) => (
           <Publication
             {...publi}
             key={publi.id}
