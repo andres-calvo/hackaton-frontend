@@ -27,7 +27,7 @@ const FeedPage = () => {
     queryFn: async () => {
       const user = JSON.parse(localStorage.getItem("userInfo") ?? "");
       const resp = await http.get(`/post/${user.id}`)
-      return resp.data;
+      return resp;
     },
   });
 
