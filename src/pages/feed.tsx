@@ -54,7 +54,7 @@ const FeedPage = () => {
         </form>
       </div>
       <section className="flex flex-col gap-4 mt-10">
-        {resp?.data?.map((publi) => (
+        {resp?.data?.map((publi:any) => (
           <Publication
             {...publi}
             key={publi.id}
