@@ -2,6 +2,9 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import React from "react";
 import { useForm } from "react-hook-form";
+import { useMutation } from "@tanstack/react-query";
+import { http } from "@/utils";
+import { User } from "@/types";
 interface FormInputs {
   email: string;
   password: string;
@@ -17,9 +20,30 @@ const FormLogin = () => {
   });
   const router = useRouter();
 
+  const { mutate } = useMutation({
+    //@ts-ignore
+    mutationFn: ({ email, password }: FormInputs) => {
+      return http.post<User>("/user/login", {
+        email,
+        password,
+      });
+    },
+    onSuccess: (resp) => {
+      localStorage.setItem(
+        "userInfo",
+        JSON.stringify({
+          id: resp.data.id,
+          email: resp.data.email,
+          name: resp.data.name,
+        })
+      );
+      router.push("/feed");
+    },
+  });
+
   const onLogin = (values: FormInputs) => {
     //Send values to backend
-    router.push("/feed");
+    mutate(values);
   };
 
   return (

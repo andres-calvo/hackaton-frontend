@@ -1,4 +1,6 @@
 import CardEvent, { CardEventProps } from "@/modules/events/CardEvent";
+import { http } from "@/utils";
+import { useQuery } from "@tanstack/react-query";
 
 const eventos: CardEventProps[] = [
   {
@@ -64,6 +66,13 @@ const eventos: CardEventProps[] = [
 ];
 
 const ListCardEvents = () => {
+  const {data} = useQuery({
+    queryKey: ["ListEvents"],
+    queryFn: async () => {
+      const resp = await http.get("/challenge")
+      return resp.data
+    },
+  });
   return (
     <section className="grid grid-cols-1 gap-4 w-[80%] max-w-4xl mx-auto justify-items-center md:grid-cols-2">
       {eventos.map((evento, index) => (

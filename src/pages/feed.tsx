@@ -4,6 +4,7 @@ import Publication, { PublicationProps } from "@/modules/feed/Publication";
 import { useQuery } from "@tanstack/react-query";
 import ModalComments from "@/modules/feed/ModalComments";
 import Header from "@/components/Header";
+import { http } from "@/utils";
 
 interface FormInputs {
   searchText: string;
@@ -25,23 +26,10 @@ const FeedPage = () => {
     Omit<PublicationProps, "handleShowModal">[]
   >({
     queryKey: ["Feed"],
-    queryFn: () => {
-      return [
-        {
-          id: 2313,
-          isImage: true,
-          media:
-            "https://www.nextinsurance.com/wp-content/uploads/2020/04/April_2020_5-802x454.jpg",
-          userName: "AndresCalvo",
-        },
-        {
-          id: 231333,
-          isImage: true,
-          media:
-            "https://www.nextinsurance.com/wp-content/uploads/2020/04/April_2020_5-802x454.jpg",
-          userName: "AndresCalvo",
-        },
-      ];
+    queryFn: async () => {
+      const user = JSON.parse(localStorage.getItem("userInfo") ?? "");
+      const resp = await http.get(`/post/${user.id}`)
+      return resp.data;
     },
   });
 

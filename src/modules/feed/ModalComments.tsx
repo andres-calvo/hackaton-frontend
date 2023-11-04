@@ -3,8 +3,8 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import { ModalCommentsProps, CommentProps } from "./types";
 import Comment from "./Comment";
-import { v4 as uuidv4 } from "uuid";
-import { useEffect, useRef, useState } from "react";
+import { useRef } from "react";
+import { http } from "@/utils";
 
 const ModalComments: React.FC<ModalCommentsProps> = ({
   isOpen,
@@ -17,38 +17,30 @@ const ModalComments: React.FC<ModalCommentsProps> = ({
       newComment: "",
     },
   });
-
+  const queryClient = useQueryClient();
   const listRef = useRef<HTMLDivElement>(null);
-  const [comments, setComments] = useState<CommentProps[]>([
-    {
-      id: "ddd",
-      name: "Usuario 1",
-      text: "Este es el comentario del Usuario 1.",
-    },
-    {
-      id: "fff",
-      name: "Usuario 2",
-      text: "Este es el comentario del Usuario 2.",
-    },
-  ]);
   const { data } = useQuery<CommentProps[]>({
-    queryKey: ["ModalComments", publicationId, comments.map((el) => el.id)],
-    queryFn: () => {
-      return comments;
+    queryKey: ["ModalComments", publicationId],
+    queryFn: async () => {
+      const resp = await http.get(`/comment/${publicationId}`);
+      return resp.data;
     },
   });
-  useEffect(() => {
-    if (listRef.current) {
-      listRef.current?.scrollIntoView({ behavior: "smooth" });
-    }
-  }, [comments]);
 
   const handleNewComment = ({ newComment }: { newComment: string }) => {
-    //
-    setComments((prev) => [
-      ...prev,
-      { id: uuidv4(), name: "Usuario2", text: newComment },
-    ]);
+    const user = JSON.parse(localStorage.getItem("userInfo") ?? "");
+
+    http
+      .post("/comment", {
+        commentary: newComment,
+        created_by: user.id,
+        post_id: publicationId,
+      })
+      .then(() => {
+        queryClient.invalidateQueries({
+          queryKey: ["ModalComments", publicationId],
+        });
+      });
   };
 
   // Manejador de eventos para la tecla Enter
@@ -66,7 +58,12 @@ const ModalComments: React.FC<ModalCommentsProps> = ({
       <div className="mt-4">
         <ul className="max-h-52 h-full overflow-auto mt-4">
           {data?.map((el) => (
-            <Comment id={el.id} name={el.name} text={el.text} key={el.id} />
+            <Comment
+              id={el.id}
+              name={el.name}
+              commentary={el.commentary}
+              key={el.id}
+            />
           ))}
           <div ref={listRef}></div>
         </ul>
