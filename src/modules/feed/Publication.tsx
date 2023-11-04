@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { MdMessage, MdModeComment, MdPerson } from "react-icons/md";
 
 export interface PublicationProps {
   id: number;
@@ -14,27 +15,30 @@ const Publication = ({
   handleShowModal,
 }: PublicationProps) => {
   return (
-    <article>
-      <div className="relative">
-        <span className="absolute top-2 left-2 font-bold text-white ">
-          {userName}
-        </span>
+    <article className="rounded-lg overflow-hidden border-[1px]">
+      <div>
         {isImage ? (
           <Image
             src={media}
             className="object-cover"
             width={320}
             height={120}
-            alt=""
-          ></Image>
+            alt=""></Image>
         ) : (
           <video src={media}></video>
         )}
       </div>
-
-      <button className="btn btn-ghost" onClick={handleShowModal}>
-        Comentarios
-      </button>
+      <div className="px-4 py-2 flex flex-col gap-1">
+        <span className="flex items-center gap-2 font-bold text-gray-900 text-[1rem]">
+          <MdPerson /> {userName}
+        </span>
+        <button
+          className="flex items-center gap-2 w-fit text-[0.8rem]"
+          onClick={handleShowModal}>
+          <MdMessage className="w-[1rem] h-[1rem]" />
+          Comentarios
+        </button>
+      </div>
     </article>
   );
 };

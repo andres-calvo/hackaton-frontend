@@ -1,23 +1,19 @@
-import {useQuery} from "@tanstack/react-query"
-import axios from "axios"
-const TrainerPage = () => {
+import Header from "@/components/Header";
+import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
 
-    const {data,isFetching} =useQuery({
-        queryKey:["trainerData"],
-        queryFn:()=>{
-            return axios.get("/api/ai")
-        }
-    })
-    
+const TrainerPage = () => {
+  const { data, isFetching } = useQuery({
+    queryKey: ["trainerData"],
+    queryFn: () => {
+      return axios.get("/api/ai");
+    },
+  });
+
   return (
     <section className="flex flex-col h-full items-center">
-      <header className="flex justify-between max-w-3xl w-full">
-        {/* Logo */}
-        {/* Trainer SVG */}
-      </header>
-      <div>
-
-      </div>
+      <Header />
+      <div></div>
     </section>
   );
 };

@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import Publication, { PublicationProps } from "@/modules/feed/Publication";
 import { useQuery } from "@tanstack/react-query";
 import ModalComments from "@/modules/feed/ModalComments";
+import Header from "@/components/Header";
 
 interface FormInputs {
   searchText: string;
@@ -49,18 +50,15 @@ const FeedPage = () => {
   };
 
   return (
-    <section className="flex flex-col h-full items-center ">
-      <header className="flex justify-between max-w-3xl w-full">
-        {/* Logo */}
-        {/* Trainer SVG */}
-      </header>
-      <div>
+    <section className="flex flex-col h-full items-center">
+      <Header className="my-4" />
+      <div className="w-[80%] max-w-md">
         <form onSubmit={handleSubmit(onSearch)} className="flex flex-col gap-4">
-          <div className="form-control w-full max-w-xs">
+          <div className="form-control">
             <input
               type="text"
               placeholder="Buscar"
-              className="input input-bordered rounded-lg  w-full max-w-xs"
+              className="input input-bordered rounded-lg w-full"
               {...register("searchText", {
                 required: true,
                 minLength: 3,

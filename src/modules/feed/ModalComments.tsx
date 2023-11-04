@@ -63,7 +63,7 @@ const ModalComments: React.FC<ModalCommentsProps> = ({
 
   return (
     <Modal isOpen={isOpen} closeModal={closeModal}>
-      <div className="mt-2">
+      <div className="mt-4">
         <ul className="max-h-52 h-full overflow-auto mt-4">
           {data?.map((el) => (
             <Comment id={el.id} name={el.name} text={el.text} key={el.id} />
@@ -73,8 +73,8 @@ const ModalComments: React.FC<ModalCommentsProps> = ({
 
         <input
           type="text"
-          placeholder="Type here"
-          className="input input-bordered w-full max-w-xs"
+          placeholder="Escribe un comentario"
+          className="input input-bordered w-full max-w-xs mt-4"
           {...register("newComment", {
             required: true,
           })}
