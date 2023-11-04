@@ -29,8 +29,8 @@ const FormRegister = () => {
     <form
       method="POST"
       onSubmit={handleSubmit(onRegister)}
-      className="w-[80%] mx-auto max-w-md flex flex-col gap-5">
-      <div className="form-control w-full max-w-xs">
+      className="flex flex-col gap-4 w-[80%] max-w-lg mx-auto">
+      <div className="form-control w-full">
         <label htmlFor="name" className="label">
           <span className="label-text">Ingresa tu nombre</span>
         </label>
@@ -38,14 +38,14 @@ const FormRegister = () => {
           id="name"
           type="text"
           placeholder="Escribe aquí"
-          className="input input-bordered w-full max-w-xs"
+          className="input input-bordered w-full"
           {...register("name", {
             required: true,
           })}
         />
       </div>
 
-      <div className="form-control w-full max-w-xs">
+      <div className="form-control w-full">
         <label htmlFor="email" className="label">
           <span className="label-text">Ingresa tu correo</span>
         </label>
@@ -53,14 +53,14 @@ const FormRegister = () => {
           id="email"
           type="email"
           placeholder="Escribe aquí"
-          className="input input-bordered w-full max-w-xs"
+          className="input input-bordered w-full"
           {...register("email", {
             required: true,
           })}
         />
       </div>
 
-      <div className="form-control w-full max-w-xs">
+      <div className="form-control w-full">
         <label htmlFor="password" className="label">
           <span className="label-text">Ingresa tu contraseña</span>
         </label>
@@ -68,14 +68,14 @@ const FormRegister = () => {
           id="password"
           type="password"
           placeholder="Escribe aquí"
-          className="input input-bordered w-full max-w-xs"
+          className="input input-bordered w-full"
           {...register("password", {
             required: true,
           })}
         />
       </div>
 
-      <div className="form-control w-full max-w-xs">
+      <div className="form-control w-full">
         <label htmlFor="birthdate" className="label">
           <span className="label-text">Ingresa tu fecha de nacimiento</span>
         </label>
@@ -83,7 +83,7 @@ const FormRegister = () => {
           id="birthdate"
           type="date"
           placeholder="Escribe aquí"
-          className="input input-bordered w-full max-w-xs"
+          className="input input-bordered w-full"
           {...register("birthdate", {
             required: true,
           })}
