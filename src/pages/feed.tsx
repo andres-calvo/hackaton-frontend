@@ -4,6 +4,7 @@ import Publication, { PublicationProps } from "@/modules/feed/Publication";
 import { useQuery } from "@tanstack/react-query";
 import ModalComments from "@/modules/feed/ModalComments";
 import Header from "@/components/Header";
+import { http } from "@/utils";
 
 interface FormInputs {
   searchText: string;
@@ -21,27 +22,10 @@ const FeedPage = () => {
   );
   const [showCommentsModal, setShowCommentsModal] = useState(false);
 
-  const { data: publications } = useQuery<
-    Omit<PublicationProps, "handleShowModal">[]
-  >({
+  const { data: resp } = useQuery({
     queryKey: ["Feed"],
     queryFn: () => {
-      return [
-        {
-          id: 2313,
-          isImage: true,
-          media:
-            "https://www.nextinsurance.com/wp-content/uploads/2020/04/April_2020_5-802x454.jpg",
-          userName: "AndresCalvo",
-        },
-        {
-          id: 231333,
-          isImage: true,
-          media:
-            "https://www.nextinsurance.com/wp-content/uploads/2020/04/April_2020_5-802x454.jpg",
-          userName: "AndresCalvo",
-        },
-      ];
+      return http.get<PublicationProps[]>("/publications");
     },
   });
 
@@ -68,7 +52,7 @@ const FeedPage = () => {
         </form>
       </div>
       <section className="flex flex-col gap-4 mt-10">
-        {publications?.map((publi) => (
+        {resp?.data?.map((publi) => (
           <Publication
             {...publi}
             key={publi.id}
